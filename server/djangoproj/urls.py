@@ -12,6 +12,12 @@ urlpatterns = [
     # Home page
     path('', TemplateView.as_view(template_name="Home.html")),
 
+    # Login page
+    path('login/', TemplateView.as_view(template_name="index.html")),
+
+    # Registration page
+    path('register/', TemplateView.as_view(template_name="index.html")),
+
     # About Us page
     path('about', TemplateView.as_view(template_name="About.html")),
 
