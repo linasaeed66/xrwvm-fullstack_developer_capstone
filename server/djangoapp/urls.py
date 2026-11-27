@@ -16,4 +16,7 @@ urlpatterns = [
     # Registration route
     path(route='register', view=views.registration, name='register'),
 
+    # Get all car makes and models
+    path(route='get_cars', view=views.get_cars, name='getcars'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

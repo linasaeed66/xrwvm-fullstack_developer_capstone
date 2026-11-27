@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from .models import CarMake, CarModel
+from .populate import initiate
 import logging
 import json
 
@@ -12,7 +14,7 @@ import json
 logger = logging.getLogger(__name__)
 
 
-# Create a login view to handle sign in request
+# Login view
 @csrf_exempt
 def login_user(request):
     data = json.loads(request.body)
@@ -29,14 +31,14 @@ def login_user(request):
     return JsonResponse(data)
 
 
-# Create a logout view to handle sign out request
+# Logout view
 def logout_request(request):
     logout(request)
     data = {"userName": ""}
     return JsonResponse(data)
 
 
-# Create a registration view to handle sign up request
+# Registration view
 @csrf_exempt
 def registration(request):
     if request.method == 'POST':
@@ -72,21 +74,35 @@ def registration(request):
     return JsonResponse({"error": "Invalid request method"})
 
 
-# Update the get_dealerships view
+# Get all car makes and models
+def get_cars(request):
+    count = CarMake.objects.count()
+    print(count)
+
+    if count == 0:
+        initiate()
+
+    car_models = CarModel.objects.select_related('car_make')
+    cars = []
+
+    for car_model in car_models:
+        cars.append({
+            "CarModel": car_model.name,
+            "CarMake": car_model.car_make.name
+        })
+
+    return JsonResponse({"CarModels": cars})
+
+
+# Placeholder views for the next lab
 # def get_dealerships(request):
-# ...
+#     pass
 
-
-# Create a get_dealer_reviews view
 # def get_dealer_reviews(request, dealer_id):
-# ...
+#     pass
 
-
-# Create a get_dealer_details view
 # def get_dealer_details(request, dealer_id):
-# ...
+#     pass
 
-
-# Create an add_review view
 # def add_review(request):
-# ...
+#     pass
