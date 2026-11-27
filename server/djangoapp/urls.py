@@ -7,16 +7,33 @@ from . import views
 app_name = 'djangoapp'
 
 urlpatterns = [
-    # Login route
+    # Authentication routes
     path(route='login', view=views.login_user, name='login'),
-
-    # Logout route
     path(route='logout', view=views.logout_request, name='logout'),
-
-    # Registration route
     path(route='register', view=views.registration, name='register'),
 
-    # Get all car makes and models
+    # Car routes
     path(route='get_cars', view=views.get_cars, name='getcars'),
+
+    # Dealership routes
+    path(route='get_dealers', view=views.get_dealerships, name='get_dealers'),
+    path(
+        route='get_dealers/<str:state>',
+        view=views.get_dealerships,
+        name='get_dealers_by_state'
+    ),
+    path(
+        route='get_dealer_details/<int:dealer_id>',
+        view=views.get_dealer_details,
+        name='get_dealer_details'
+    ),
+
+    # Review routes
+    path(
+        route='get_dealer_reviews/<int:dealer_id>',
+        view=views.get_dealer_reviews,
+        name='get_dealer_reviews'
+    ),
+    path(route='add_review', view=views.add_review, name='add_review'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
